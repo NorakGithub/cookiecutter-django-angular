@@ -1,0 +1,1 @@
+# Cookiecutter template for Angular and Django
