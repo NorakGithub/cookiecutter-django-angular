@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - angular
+      - django
+    volumes:
+      - ./nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./static:/static
+      - ./media:/media
+      - ./dist:/dist
+
+  postgres:
+    image: postgres:9.6
+    volumes:
+      - postgres_cookiecutter:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  
+  django:
+    build:
+      context: ./backend
+      dockerfile: docker/dockerfile
+    command: ["docker/wait-for-postgres.sh", "postgres", "postgres", "postgres"]
+    entrypoint: docker/entrypoint.sh
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres
+      - DJANGO_SETTINGS_MODULE=config.settings.local
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    volumes:
+      - ./static:/source/static
+      - ./media:/source/media
+
+  angular:
+    build: 
+      context: ./frontend
+      dockerfile: docker/dockerfile
+    command: bash -c "npm run build && cp -R dist/. tmp/"
+    volumes:
+      - ./dist:/source/tmp
+
+volumes:
+  postgres_cookiecutter:

@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  
+  angular:
+    build:
+      context: .
+      dockerfile: docker/dockerfile
+    command: "npm run start"
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./src:/source/src

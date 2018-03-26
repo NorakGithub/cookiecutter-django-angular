@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:9.6
+    volumes:
+      - postgres_cookiecutter:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  
+  django:
+    build:
+      context: .
+      dockerfile: docker/dockerfile
+    command: ["./docker/wait-for-postgres.sh", "postgres", "postgres", "postgres", "python manage.py runserver 0.0.0.0:8000"]
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres
+      - DJANGO_SETTINGS_MODULE=config.settings.local
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    volumes:
+      - .:/source
+    stdin_open: true
+    tty: true
+
+volumes:
+  postgres_cookiecutter:
