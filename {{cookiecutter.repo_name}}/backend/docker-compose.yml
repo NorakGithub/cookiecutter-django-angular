@@ -4,7 +4,7 @@ services:
   postgres:
     image: postgres:9.6
     volumes:
-      - postgres_cookiecutter:/var/lib/postgresql/data
+      - postgres_{{cookiecutter.project_name}}:/var/lib/postgresql/data
     ports:
       - "5432:5432"
   
@@ -26,4 +26,4 @@ services:
     tty: true
 
 volumes:
-  postgres_cookiecutter:
+  postgres_{{cookiecutter.project_name}}:
