@@ -1,7 +1,10 @@
 {
-	"repo_name": "Repo Name",
-	"project_name": "Project Name",
+	"repo_name": "awesome-repo",
+	"project_name": "My Awesome Project",
     "database_username": "Database Username",
     "database_password": "Database Password",
-    "database_name": "Database Name"
+    "database_name": "Database Name",
+    "django_image_registry": "AWS ECR",
+    "angular_image_registry": "AWS ECR",
+    "docker_image_tag": "lastest"
 }

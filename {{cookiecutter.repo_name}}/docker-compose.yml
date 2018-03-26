@@ -28,9 +28,7 @@ services:
       - POSTGRES_DB={{cookiecutter.database_name}}
   
   django:
-    build:
-      context: ./backend
-      dockerfile: docker/dockerfile
+    image: {{cookiecutter.django_image_registry}}:{{cookiecutter.docker_image_tag}}
     command: ["docker/wait-for-postgres.sh", "postgres", "postgres", "postgres"]
     entrypoint: docker/entrypoint.sh
     environment:
@@ -45,9 +43,7 @@ services:
       - ./media:/source/media
 
   angular:
-    build: 
-      context: ./frontend
-      dockerfile: docker/dockerfile
+    image: {{cookiecutter.angular_image_registry}}:{{cookiecutter.docker_image_tag}}
     command: bash -c "npm run build && cp -R dist/. tmp/"
     volumes:
       - ./dist:/source/tmp
