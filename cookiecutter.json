@@ -1,0 +1,7 @@
+{
+	"repo_name": "Repo Name",
+	"project_name": "Project Name",
+    "database_username": "Database Username",
+    "database_password": "Database Password",
+    "database_name": "Database Name"
+}

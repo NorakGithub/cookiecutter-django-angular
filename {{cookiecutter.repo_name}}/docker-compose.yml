@@ -22,6 +22,10 @@ services:
       - postgres_{{cookiecutter.project_name}}:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    environment:
+      - POSTGRES_USER={{cookiecutter.database_username}}
+      - POSTGRES_PASSWORD={{cookiecutter.database_password}}
+      - POSTGRES_DB={{cookiecutter.database_name}}
   
   django:
     build:
@@ -30,7 +34,7 @@ services:
     command: ["docker/wait-for-postgres.sh", "postgres", "postgres", "postgres"]
     entrypoint: docker/entrypoint.sh
     environment:
-      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres
+      - DATABASE_URL=postgres://postgres:{{cookiecutter.database_username}}@{{cookiecutter.database_password}}:5432/{{cookiecutter.database_name}}
       - DJANGO_SETTINGS_MODULE=config.settings.local
     ports:
       - "8000:8000"
